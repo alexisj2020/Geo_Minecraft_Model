@@ -21,16 +21,14 @@ for x in peri:
 y_dirt = list(range(-5,0))
 y_stone = list(range(-64,-5))
 
-#create a simple subsurface
+#create a simple subsurface with dirt and stone layers
 for x in range(0,256):
     for z in range(0,256):
         editor.placeBlock((x,0,z), Block("grass_block"))
-
 for x in range(0,256):
     for z in range(0,256):
         for y in y_dirt:
             editor.placeBlock((x,y,z), Block("dirt"))
-
 for x in range(0,256):
     for z in range(0,256):
         for y in y_stone:
