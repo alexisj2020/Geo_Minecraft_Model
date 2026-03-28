@@ -16,7 +16,7 @@ img = Image.open("maps/geologic_map_from_data.png")
 img = img.convert('RGB')
 
 # Resize smoothly down
-img_r = img.resize((577, 428), resample=Image.Resampling.NEAREST)
+img_r = img.resize((1153, 852), resample=Image.Resampling.NEAREST)
 
 #create numpy array from resized map
 arr = np.array(img_r)
@@ -89,13 +89,20 @@ for x in range(rows):
     for y in range(cols):
         arr_rgb[x,y] = ''.join(str(n) for n in arr_fix[x,y])
 
-#place blocks according to map array
-for x in range (0,577):
-    for z in range(0,426):
+for x in range (0,1153):
+    for z in range(0,852):
         for y in range(0, heightmap[x,z]):
             if arr_rgb[z,x]==255255255:
-                editor.placeBlock((x,heightmap[x,z]-2,z), Block("water"))
-                editor.placeBlock((x,heightmap[x,z]-1,z), Block("air"))
+                if heightmap[x,z]==64:
+                    editor.placeBlock((x,heightmap[x,z]-1,z), Block("water"))
+                else:
+                    editor.placeBlock((x,heightmap[x,z]-2,z), Block("water"))
+                    editor.placeBlock((x,heightmap[x,z]-1,z), Block("air"))
+
+#place blocks according to map array
+for x in range (0,1153):
+    for z in range(0,852):
+        for y in range(0, heightmap[x,z]):
             if arr_rgb[z,x]==640:
                 editor.placeBlock((x,y,z), Block("blackstone"))
             if arr_rgb[z,x]==64128:
