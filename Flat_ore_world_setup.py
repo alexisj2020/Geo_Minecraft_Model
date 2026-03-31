@@ -29,15 +29,15 @@ y_stone = list(range(0,59))
 #    for z in range(0,200):
 #        for y in y_dirt:
 #            editor.placeBlock((x,y,z), Block("dirt"))
-#for x in range(0,200):
-#    for z in range(0,200):
-#        for y in y_stone:
-#            editor.placeBlock((x,y,z), Block("stone"))
+for x in range(0,200):
+    for z in range(0,200):
+        for y in y_stone:
+            editor.placeBlock((x,y,z), Block("glass"))
 
 #create random distributions of ore bodies within a 10 cubic metre range
 iron_ore = random.choice([1, 2], p=[0.2, 0.8], size=(10, 10, 10))
-gold_ore = random.choice([1, 3], p=[0.2, 0.8], size=(10, 10, 10))
-diamond_ore = random.choice([1, 4], p=[0.25, 0.75], size=(10, 10, 10))
+gold_ore = random.choice([1, 3], p=[0.25, 0.75], size=(10, 10, 10))
+diamond_ore = random.choice([1, 4], p=[0.3, 0.7], size=(10, 10, 10))
 
 #create a 3D array of random integers within study coordinates
 x_rand = np.random.randint(0, 200 + 1, size=18).tolist()

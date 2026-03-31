@@ -28,7 +28,7 @@ rows, cols, z = arr.shape
 arr_fix = np.empty(shape=(rows,cols,z), dtype = int)
 for x in range(rows):
     for y in range(cols):
-        if (np.array_equal(arr[x,y],[  0, 0, 0])
+        if (np.array_equal(arr[x,y],[ 0, 0, 0])
         or np.array_equal(arr[x,y],[255, 255, 255])):
             arr_fix[x,y] = arr[x,y]
         else:
@@ -45,4 +45,4 @@ for x in range(rows):
 for x in range (0,1153):
     for z in range(0,852):
         if arr_rgb[z,x]==000:
-            editor.placeBlock((x,heightmap[x,z],z), Block("brick"))
+            editor.placeBlock((x,heightmap[x,z],z), Block("bricks"))

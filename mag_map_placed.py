@@ -4,7 +4,7 @@ import sys
 from gdpc import __url__, Editor, Block
 editor = Editor(buffering=True)
 
-mag_grid = np.loadtxt('mag_grid.txt', delimiter=' ',dtype=float)
+mag_grid = np.loadtxt('mag_test_1.txt', delimiter=' ',dtype=float)
 
 for x in range(0,200):
     for y in range(0,200):
