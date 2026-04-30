@@ -1,0 +1,29 @@
+# Making Gravity and Magnetics Maps of Minecraft Worlds
+This is a step-by-step tutorial of how to use the files included in this repo to calculate gravity and magnetics data from Minecraft worlds, and how to add the resulting maps to those Minecraft worlds. This tutorial also includes steps for generating flat worlds with randomly generated ore bodies, but you can make gravity and magnetics maps on any Minecraft worlds. The flat worlds are good for classroom exercises.
+
+## Making flat worlds with ore bodies (skip if you want to make geophysical maps of your own worlds instead)
+We've developed these simple flat worlds with subsurface ore bodies to serve as classroom exercises. Some of these are already available in this repo, but we've included the code as well if you want to make your own. To make these worlds, we first use WorldPainter. In WorldPainter, we make a Minecraft map which is completely flat, with the ground level at 64. The WorldPainter file used to create the base world is found in the **Worlds** folder of the repo. We export this map in WorldPainter to make a flat Minecraft world
+
+Once we have this Minecraft world, we can go to "Flat_ore_world_setup.py". This file contains code which creates a 200x200 fenced-in play area. It fills the top 5 blocks in this area with dirt, and everything below with stone. Then, multiple random ore bodies are generated containing gold, iron, and diamond. By default, the ore bodies are 10x10x10 blocks in size, and can appear anywhere within the 200x200 space and between 20 to 64 in the vertical direction. Feel free to customize as you please, you can make the ore bodies smaller or bigger, or different shapes. You can also easily change how many ore bodies are generated and what area range they will appear in. 
+
+When you're happy with any changes you've made (if any), run this code in a terminal window while you have the Minecraft world made from WorldPainter open on your computer.
+
+## Reading Minecraft worlds as NumPy arrays
+To generate the gravity and magnetics data, we first need to read the Minecraft blocks in the world into an array. We also need to generate a file to write the Minecraft blocks to. Run "make_initial_sbsrf_file.py" to generate an empty file of the proper dimensions. Before running this code, open the file and specify the name you want for the file that will contain your blocks. "Sbsrf_collection.py" will read the Minecraft blocks to this file. This file reads a set play area in a Minecraft world and enters each block into a NumPy array. Unfortunately, trying to read the entire play area at once will overload the server, so we do this line by line. We're written a script called "run_sbsrf_coll.sh" to automatically run "Sbsrf_collection.py" for every x coordinate in the play area.
+
+Note that each of these files are written with a 200x200x44 play area in mind with a corner of the map at 0,0,0 in the Miencraft world, so if you want to read a different part of your world, or different size of blocks, you'll have to change these presets.
+
+When you're ready to read the blocks of your world, open the chosen world and then run "run_sbsrf_coll.sh" in a terminal window. This may take a while...
+
+## Calculating the Data
+Once you have file that contains the Minecraft blocks of your desired area, we can calculate the geophysical data. We have a file each for the gravity and magnetics data ("Gravity_Data.ipynb" and "Magnetic_Data.ipynb") respectively.
+
+### Gravity
+Open "Gravity_Data.ipynb". Make sure the file named in the first cell is the same name as the one that contains your Minecraft blocks. This code will generate a density array, initially filled with zeros. It will then fill in set density values for any elements where there are ore blocks at the same coordinate in the Minecraft block array. Then it will calculate the gravity data from this density array. You can plot this data as a 2D map and save it as a PNG. Congratulations, you've calculated a gravity map of a Minecraft world! Feel free to change any of the density values assigned to each block type. You may also have to specify densities for other block types if you have a more complicated world with more block types. You can check which types of blocks you have by running the second cell.
+
+### Magnetics
+Open "Magnetic_Data.ipynb". Make sure the file named in the first cell is the same name as the one that contains your Minecraft blocks. This file uses SimPEG functions to set up a survey grid and calculate the magnetic data of the Minecraft blocks according to the assigned magnetism of each block type. Much of this code is taken from the SimPEG magnetics forward modelling tutorial, which I recommend reading here https://simpeg.xyz/user-tutorials/fwd-magnetics-induced-3d/. Run all the cells to calculate the magnetic data and plot a 2D map of the data and save it as a PNG. Feel free to change any of the magnetism values assigned to each block type. You may also have to specify magnetism for other block types if you have a more complicated world with more block types.
+
+
+## Putting the Maps in Minecraft
+Once you've calculated the gravity and/or magnetics data and generated maps of these data,  you can place these maps in the Minecraft world using "grav_map_placed.py" and "mag_map_placed.py". Running either of these codes while you have the associated Minecraft World open will place the map up in the sky of the Minecraft world on top of the set play area. Any anomalies seen in the maps will link to ore bodies (or whatever you have down there) in the subsurface. You can only see one map at a time, unfortunately, but if desired you can make a copy of your world and put the gravity map in one and the magnetic map in the other.
